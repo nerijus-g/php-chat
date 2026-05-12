@@ -1,0 +1,20 @@
+{
+  "name": "nerijus/phalcon-ratchet-chat",
+  "description": "Real-time chat using Phalcon MVC + Ratchet WebSocket server",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "ext-phalcon": "*",
+    "cboden/ratchet": "^0.4.4",
+    "react/event-loop": "^1.5",
+    "react/socket": "^1.12",
+    "predis/predis": "^2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "App\\Controllers\\": "app/controllers/",
+      "WebSocket\\": "websocket/"
+    }
+  }
+}

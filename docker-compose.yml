@@ -1,0 +1,85 @@
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./src/php/:/var/www/html/php/
+      - ./src/react/dist/:/var/www/html/react/
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+    networks:
+      - appnet
+
+  php:
+    build: ./docker/php
+    volumes:
+      - ./src/websocket:/var/www/html/websocket
+      - ./docker/php/restart.sh:/scripts/restart.sh
+    networks:
+      - appnet
+    ports:
+      - "8080:8080"
+
+  react:
+    image: node:20-alpine
+    user: "1000:1000"
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    volumes:
+      - ./src/react:/app
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_USER: regular
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_password
+      MYSQL_PASSWORD_FILE: /run/secrets/mysql_password
+    volumes:
+      - ./docker/mysql/databases.sql:/docker-entrypoint-initdb.d/databases.sql
+      - mysqldata:/var/lib/mysql
+    networks:
+      - appnet
+    secrets:
+      - mysql_root_password
+      - mysql_password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_ARBITRARY: 1
+    depends_on:
+      - mysql
+    networks:
+      - appnet
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - appnet
+
+networks:
+  appnet:
+
+volumes:
+  mysqldata:
+
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  mysql_password:
+    file: ./secrets/mysql_password.txt
