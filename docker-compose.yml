@@ -3,6 +3,7 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
+      - "81:81"
     volumes:
       - ./src/php/:/var/www/html/php/
       - ./src/react/dist/:/var/www/html/react/
@@ -15,7 +16,8 @@ services:
   php:
     build: ./docker/php
     volumes:
-      - ./src/websocket:/var/www/html/websocket
+      - ./src/php/:/var/www/html/php/
+      - ./src/websocket/:/var/www/html/websocket/
       - ./docker/php/restart.sh:/scripts/restart.sh
     networks:
       - appnet
