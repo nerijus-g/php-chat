@@ -1,25 +1,25 @@
 #!/bin/bash
 
-session='php'
-PROJECT_ROOT='~/projects/php-chat'
+SESSION_NAME='php'
+PROJECT_ROOT="$HOME/projects/php-chat"
 
+tmux new-session -d -s $SESSION_NAME -n root
 
-tmux new-session -d -s $session
+tmux new-window -t $SESSION_NAME:1 -n scripts
+tmux new-window -t $SESSION_NAME:2 -n emacs
+tmux new-window -t $SESSION_NAME:3 -n php
+tmux new-window -t $SESSION_NAME:4 -n nginx
+tmux new-window -t $SESSION_NAME:5 -n react
+tmux new-window -t $SESSION_NAME:6 -n docker
 
-tmux rename-window -t 0 'root'
-tmux new-window -t $session:1 -n 'scripts'
-tmux new-window -t $session:2 -n 'emacs'
-tmux new-window -t $session:3 -n 'php'
-tmux new-window -t $session:4 -n 'nginx'
-tmux new-window -t $session:5 -n 'react'
-tmux new-window -t $session:6 -n 'docker'
+sleep 0.2
 
-tmux attach -t $session:1
+tmux send-keys -t $SESSION_NAME:0 "cd $PROJECT_ROOT" C-m
+tmux send-keys -t $SESSION_NAME:1 "bash $PROJECT_ROOT/scripts/menu.sh $PROJECT_ROOT" C-m
+tmux send-keys -t $SESSION_NAME:2 "cd $PROJECT_ROOT" C-m
+tmux send-keys -t $SESSION_NAME:3 "cd $PROJECT_ROOT" C-m
+tmux send-keys -t $SESSION_NAME:4 "cd $PROJECT_ROOT" C-m
+tmux send-keys -t $SESSION_NAME:5 "cd $PROJECT_ROOT" C-m
+tmux send-keys -t $SESSION_NAME:6 "cd $PROJECT_ROOT" C-m
 
-tmux send-keys -t 'root' "cd $PROJECT_ROOT" C-m
-tmux send-keys -t 'scripts' "bash $PROJECT_ROOT/scripts/menu.sh $PROJECT_ROOT" C-m
-tmux send-keys -t 'emacs' "cd $PROJECT_ROOT" C-m
-tmux send-keys -t 'php' "cd $PROJECT_ROOT" C-m
-tmux send-keys -t 'nginx' "cd $PROJECT_ROOT" C-m
-tmux send-keys -t 'react' "cd $PROJECT_ROOT" C-m
-tmux send-keys -t 'docker' "cd $PROJECT_ROOT" C-m
+tmux attach -t $SESSION_NAME:1
