@@ -1,15 +1,15 @@
 <?php
-require dirname(__DIR__) . '/websocket/vendor/autoload.php';
-require 'Chat.php';
+require __DIR__ . '/vendor/autoload.php';
 
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
+use Server\Server;
 
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new Chat()
+            new Server()
         )
     ),
     8080,

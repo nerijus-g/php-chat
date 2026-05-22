@@ -17,7 +17,7 @@ services:
     build: ./docker/php
     volumes:
       - ./src/php/:/var/www/html/php/
-      - ./src/websocket/:/var/www/html/websocket/
+      - ./src/server/:/var/www/html/server/
       - ./docker/php/restart.sh:/scripts/restart.sh
     networks:
       - appnet
