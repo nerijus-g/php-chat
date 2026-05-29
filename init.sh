@@ -16,7 +16,7 @@ sleep 0.2
 tmux send-keys -t $SESSION_NAME:0 "cd $PROJECT_ROOT" C-m
 
 tmux send-keys -t $SESSION_NAME:1 "e" C-m
-tmux send-keys -t $SESSION_NAME:2 "docker compose exec php bash" C-m
+tmux send-keys -t $SESSION_NAME:2 "docker compose exec php php ./server/index.php" C-m
 tmux send-keys -t $SESSION_NAME:3 "docker compose exec nginx bash" C-m
 tmux send-keys -t $SESSION_NAME:4 "docker compose exec react sh" C-m
 tmux send-keys -t $SESSION_NAME:5 "docker compose up" C-m
